@@ -1,45 +1,141 @@
-{% extends "base_kline.html" %}
-{% from "_formhelpers.html" import render_field %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+</head>
 
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Auto SQL Analysis</h1>
+            <hr>
 
-{% block content %}
-<!-- enctype="multipart/form-data" -->
-<form id="form1" method="post" name="input_sql_query", action='/sql_analysis'>
+            <div class="mb-3">
+                <div class="form-group">
+                    <label>tbl_name</label>
+                    <input type="text" class="form-control" id="tbl_name" placeholder="Enter table name">
+                </div>
+                <div class="form-group">
+                    <label>tbl_comment</label>
+                    <input type="text" class="form-contorl" id="tbl_comment" placeholder="Enter table comment">
+                </div>
+                <div class="form-group">
+                    <label>sql</label>
+                    <textarea class="form-contorl" id="sql" cols="30" rows="3" placeholder="Enter your sql"></textarea>
+                </div>
 
-<div class="row">
-<div class="col-lg-10 col-xs-10">
-    {{render_field(form.sql, size=200)}}
+                <button class="btn btn-primary" onclick="submit_entry();">Analysis</button>
+
+                <!-- <p id="hive">{{hive}}</p>
+                <p id="mysql">{{mysql}}</p>
+                <p id="oflow">{{oflow}}</p> -->
+                <style type="text/css">
+                    .output{white-space:pre-wrap;}
+                </style>
+                <p class="output" id='output-result'>{{output}}</p>
+            </div>
+        </div>
+    </div>
 </div>
-</div>
 
-<!-- <p><input type="submit" value="分析" name="sql_analysis" onclick="getData()"></p> -->
-<p><input type="submit" value="分析" name="sql_analysis" onclick=getData()></p>
-</form>
-
-<!-- <table id = 'sql_desc'></table>
 <script>
-    //   var data = [{name: "Andy",Age:18,Blogs:"OSC"},{name: "Lily",Age:21,Blogs:"OSC111"},{name: "Bou",Age:32,Blogs:"OSCsss"},];
-    var data = [{'col': 'dayno', 'comment': '日期', 'dtype': 'string', 'id': 0}, {'col': 'imei', 'comment': 'imei', 'dtype': 'string', 'id': 1}, {'col': 'sc', 'comment': '自定义', 'dtype': 'string', 'id': 2}, {'col': 'expose_nums', 'comment': '曝光量', 'dtype': 'bigint', 'id': 3}, {'col': 'evt_nums', 'comment': '应扣下载量', 'dtype': 'bigint', 'id': 4}, {'col': 'acc_nums', 'comment': '实扣下载量', 'dtype': 'bigint', 'id': 5}, {'col': 'acc_cost', 'comment': '实扣金额', 'dtype': 'bigint', 'id': 6}];
-    var html;
-    $.each(data, function getData(index, item) {
-        if (index === 0) {
-            html += "<tr>";
-            $.each(item, function (vlaIndex) {
-                html += "<td>";
-                html += vlaIndex;
-                html += "</td>";
-            });
-            html += "</tr>";
-        }
-        html += "<tr>";
-        $.each(item, function (vlaIndex, valItem) {
-            html += "<td>";
-            html += valItem;
-            html += "</td>";
+    function submit_entry()
+    {
+        var tbl_name = document.getElementById("tbl_name");
+        var tbl_comment = document.getElementById("tbl_comment");
+        var sql = document.getElementById("sql");
+
+        var entry = {
+            tbl_name: tbl_name.value,
+            tbl_comment: tbl_comment.value,
+            sql: sql.value,
+        };
+
+        console.log(entry);
+
+        // var hivequery = document.getElementById("hive");
+        // var mysqlquery = document.getElementById("mysql");
+        // var oflowquery = document.getElementById("oflow");
+
+        // fetch(`${window.origin}/sql_analysis`, {
+        //     method: "POST",
+        //     credentials: "include",
+        //     body: JSON.stringify(entry),
+        //     cache: "no-cache",
+        //     headers: new Headers({
+        //         "content-type": "application/json"
+        //     })
+        // })
+        // .then(function(response) {
+        //     return response.text();
+        // }).then(function(text) {
+        //     console.log(text)
+        //     document.getElementById("output").innerHTML = text
+        // });
+
+        fetch(`${window.origin}/sql_analysis`, {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(entry),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+        })
+        .then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            console.log(data);
+            all_query = Object.values(data)
+            document.getElementById("output-result").innerHTML = all_query
+
+            // 循环打印 key 和 value
+            // for (const [key, value] of Object.entries(data)) {
+            //     console.log(`${key}\n${value}`);
+                // document.getElementById("output-result").innerText = `${key}\n${value}`
+            // }
+
+
+            
+            // keys = Object.keys(data);
+            // console.log(keys);
+
+
+
+            // const outdiv = document.querySelector("#output-result");
+
+            // for (const [key, value] of Object.entries(data)){
+            //     const typeElement = document.createElement("p");
+            //     const queryElement = document.createElement("p");
+            //     typeElement.innerText = key
+            //     queryElement.innerText = value
+            // }
         });
-        html += "</tr>";
-    });
-    $("#sql_desc").html(html);
+
+
+        // .then(function(response) {
+        //     response.json().then(function(data){
+        //         console.log(data);
+        //         // output.innerText = `${data}.hive`
+        //         document.getElementById("output").innerHTML = JSON.stringify(data.items)
+        //     });
+        // });
+        
+
+
+        // function sql_analysis() {
+        //     $.ajax({
+        //         url: "http://127.0.0.1:5000/sql_analysis",
+        //         type: "POST",
+        //         data: JSON.stringify(entry),
+        //         dataType: "json",
+        //         success: function (data) {
+        //             console.log(data);
+        //         }
+        //     });
+        // }
     
-    </script> -->
-{% endblock %}
+    }
+</script>
