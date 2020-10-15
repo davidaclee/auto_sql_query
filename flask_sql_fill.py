@@ -3,6 +3,7 @@ from flask_wtf import Form
 from wtforms import StringField, TextAreaField
 import os
 import json
+import re
 app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -36,6 +37,10 @@ def get_sql_col_info():
     sql = sql.lower()
     col_list_tmp = sql.replace('\n', '').replace('select', '').replace('from', '?').replace('where', '?')
     col_list_tmp = col_list_tmp.split('?')[0]
+
+    # 替换调用函数时括号里的逗号
+    p = re.compile('\,.*?\(.*?\)')
+    col_list_tmp = p.sub(',', col_list_tmp)
 
     # # logging.debug('特殊字符处理' + col_list_tmp)
     col_list_len = len(col_list_tmp.split(','))
@@ -71,7 +76,10 @@ def get_sql_col_info():
     oflow_text = ''
     for i in range(len(sql_col_info)):
         col_info = sql_col_info[i]
-        mysql_text += '{col} {dtype} comment "{comment}",\n'.format(**col_info)
+        if col_info['dtype'] == 'string':
+            mysql_text += '{col} varchar(40) comment "{comment}",\n'.format(**col_info)
+        else:
+            mysql_text += '{col} {dtype} comment "{comment}",\n'.format(**col_info)
         if i == len(sql_col_info) - 1:
             hive_text += '{col} {dtype} comment "{comment}"\n'.format(**col_info)
             oflow_text += '{col}'.format(**col_info)
@@ -100,7 +108,7 @@ def get_sql_col_info():
         'all_query': all_query
     }
 
-    print(tbl_query)
+    # print(tbl_query)
 
     return jsonify(tbl_query)
     # return jsonify({'ok': True})
