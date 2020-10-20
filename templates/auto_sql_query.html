@@ -3,43 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
-    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+    <style type="text/css">
+
+        :root {
+        --color-primary: #2eec96;
+        --selection-color: #abffd9;
+        --unitless-max-font-size: 18;
+        }
+
+        body {
+        padding: 2rem 1rem;
+        /* background-color: #2eec96; */
+        }
+
+        form {
+            max-width: 50rem;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-lighter);
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .mb-3 {
+            position: relative; padding-top: 1.5rem; 
+        } 
+
+        label {
+            position: absolute; 
+            top: 0;
+            font-size: var(--font-size-small);
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.2s ease-out; 
+        }
+
+        input:placeholder-shown + label {
+            opacity: 0;
+            transform: translateY(1rem);
+        }
+
+        input {
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 0.75rem;
+        }
+
+        .form-group {
+            position: relative;
+            padding-top: 1.5rem;
+        }
+        .has-dynamic-label label {
+            position: absolute;
+            top: 0;
+            font-size: var(--font-size-small);
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.2s ease-out;
+        }
+    </style>
 </head>
-
+<body>
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <h1>Auto SQL Analysis</h1>
-            <hr>
+        <div class="row">
+            <div class="col">
+                <h1>SQL Query Generator</h1>
+                <hr>
 
-            <div class="mb-3">
-                <div class="form-group">
-                    <label>tbl_name</label>
-                    <input type="text" class="form-control" id="tbl_name" placeholder="Enter table name">
-                </div>
-                <div class="form-group">
-                    <label>tbl_comment</label>
-                    <input type="text" class="form-contorl" id="tbl_comment" placeholder="Enter table comment">
-                </div>
-                <div class="form-group">
-                    <label>sql</label>
-                    <textarea class="form-contorl" id="sql" cols="30" rows="3" placeholder="Enter your sql"></textarea>
-                </div>
+                <div class="mb-3">
+                    <p class="form-group">
+                        <label for="has-dynamic-label">Table Name</label>
+                        <input type="text" class="form-control" id="tbl_name" placeholder="Enter Table Name" required>
+                        <span class="help-text"></span>
+                    </p>
+                    <p class="form-group">
+                        <label for="has-dynamic-label">Table Comment</label>
+                        <input type="text" class="form-contorl" id="tbl_comment" placeholder="Enter Table Comment" required>
+                        <span class="help-text"></span>
+                    </div>
+                    <p class="form-group">
+                        <label for="has-dynamic-label">Query</label>
+                        <textarea class="form-contorl" id="sql" cols="30" rows="3" placeholder="Enter you SQL Query"></textarea>
+                        <span class="help-text"></span>
+                    </p>
 
-                <button class="btn btn-primary" onclick="submit_entry();">Analysis</button>
+                    <button class="btn btn-primary" onclick="submit_entry();">Analysis</button>
 
-                <!-- <p id="hive">{{hive}}</p>
-                <p id="mysql">{{mysql}}</p>
-                <p id="oflow">{{oflow}}</p> -->
-                <style type="text/css">
-                    .output{white-space:pre-wrap;}
-                </style>
-                <p class="output" id='output-result'>{{output}}</p>
+                    <!-- <p id="hive">{{hive}}</p>
+                    <p id="mysql">{{mysql}}</p>
+                    <p id="oflow">{{oflow}}</p> -->
+                    <style type="text/css">
+                        .output{white-space:pre-wrap;}
+                    </style>
+                    <p class="output" id='output-result'>{{output}}</p>
+                </div>
             </div>
         </div>
-    </div>
 </div>
-
+</body>
 <script>
     function submit_entry()
     {
