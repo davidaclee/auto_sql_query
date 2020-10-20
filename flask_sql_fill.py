@@ -39,8 +39,9 @@ def get_sql_col_info():
     col_list_tmp = col_list_tmp.split('?')[0]
 
     # 替换调用函数时括号里的逗号
-    p = re.compile('\,.*?\(.*?\)')
-    col_list_tmp = p.sub(',', col_list_tmp)
+    p = re.compile('\.*?[(](.*?)[)]', re.S)
+    # print(re.findall(p, col_list_tmp))
+    col_list_tmp = p.sub('', col_list_tmp)
 
     # # logging.debug('特殊字符处理' + col_list_tmp)
     col_list_len = len(col_list_tmp.split(','))
