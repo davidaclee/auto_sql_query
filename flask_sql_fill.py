@@ -4,6 +4,12 @@ from wtforms import StringField, TextAreaField
 import os
 import json
 import re
+
+import http.client
+import hashlib
+import urllib
+import random
+
 app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -25,6 +31,40 @@ class OutputSqlForm(Form):
     col = StringField('col')
     dtype = StringField('dtype')
     comment = StringField('comment')
+
+def baidu_translate(query):
+    appid = '20210127000682390'  # 填写你的appid
+    secretKey = '2YbgLabhKzeJ40aKO4Ws'  # 填写你的密钥
+
+    httpClient = None
+    myurl = '/api/trans/vip/translate'
+
+    fromLang = 'auto'   #原文语种
+    toLang = 'zh'   #译文语种
+    salt = random.randint(32768, 65536)
+    q= query
+    q = q.replace('_', ' ')
+    sign = appid + q + str(salt) + secretKey
+    sign = hashlib.md5(sign.encode()).hexdigest()
+    myurl = myurl + '?appid=' + appid + '&q=' + urllib.parse.quote(q) + '&from=' + fromLang + '&to=' + toLang + '&salt=' + str(
+    salt) + '&sign=' + sign
+
+    try:
+        httpClient = http.client.HTTPConnection('api.fanyi.baidu.com')
+        httpClient.request('GET', myurl)
+
+        # response是HTTPResponse对象
+        response = httpClient.getresponse()
+        result_all = response.read().decode("utf-8")
+        result = json.loads(result_all)
+
+        return result['trans_result'][0]['dst']
+
+    except Exception as e:
+        print (e)
+    finally:
+        if httpClient:
+            httpClient.close()
 
 @app.route('/sql_analysis', methods = ['POST'])
 def get_sql_col_info():
@@ -59,9 +99,10 @@ def get_sql_col_info():
             info = sql_col_dict[col]
             info.update(id=i)
         else:
-            info = {"col": col, "comment": "自定义", "dtype":"string","id": i}
+            comment = baidu_translate(col)
+            # comment = '未知'
+            info = {"col": col, "comment": comment, "dtype":"string","id": i}
         # col_info[str(i)] = col_info_value
-
         sql_col_info.append(info)
     # print(json.dumps(col_info))
     print('Analysis Result:', sql_col_info)
