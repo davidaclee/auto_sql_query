@@ -158,11 +158,18 @@ def get_sql_col_info():
 
 sql_col_dict = {
     "dayno": {"col": "dayno", "comment": "日期", "dtype": "string"},
+    "fdate": {"col": "dayno", "comment": "日期", "dtype": "string"},
     "imei": {"col": "imei", "comment": "imei", "dtype": "string"},
+    "sc_name": {"col": "sc_name", "comment": "业务场景名称", "dtype": "string"},
+    "otype": {"col": "otype", "comment": "词性", "dtype": "string"},
+    "kw": {"col": "kw", "comment": "扣费关键词", "dtype": "string"},
     "evt_nums": {"col": "evt_nums", "comment": "应扣下载量", "dtype": "bigint"},
+    "evt_cost": {"col": "evt_cost", "comment": "应扣金额", "dtype": "bigint"},
     "acc_nums": {"col": "acc_nums", "comment": "实扣下载量", "dtype": "bigint"},
     "acc_cost": {"col": "acc_cost", "comment": "实扣金额", "dtype": "bigint"},
-    "expose_nums":{"col": "expose_nums", "comment": "曝光量", "dtype": "bigint"}
+    "expose_nums":{"col": "expose_nums", "comment": "曝光量", "dtype": "bigint"},
+    "cvr":{"col": "cvr", "comment": "转化率", "dtype": "double"},
+
 }
 
 if __name__ == "__main__":

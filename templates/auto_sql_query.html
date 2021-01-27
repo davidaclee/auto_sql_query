@@ -26,6 +26,7 @@
         }
 
         h1 {
+            font-family:Arial,Helvetica,sans-serif;
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--gray-lighter);
@@ -34,7 +35,8 @@
         }
 
         .mb-3 {
-            position: relative; padding-top: 1.5rem; 
+            position: relative; 
+            padding-top: 1.5rem; 
         } 
 
         label {
@@ -46,56 +48,109 @@
             transition: all 0.2s ease-out; 
         }
 
-        input:placeholder-shown + label {
+        /* input:placeholder-shown + label {
             opacity: 0;
             transform: translateY(1rem);
-        }
+        } */
 
-        input {
+        /* input {
             background-repeat: no-repeat;
             background-position: right 1rem center;
             background-size: 0.75rem;
-        }
+        } */
 
         .form-group {
             position: relative;
             padding-top: 1.5rem;
         }
-        .has-dynamic-label label {
-            position: absolute;
-            top: 0;
-            font-size: var(--font-size-small);
-            opacity: 1;
-            transform: translateY(0);
-            transition: all 0.2s ease-out;
+
+        input,textarea {
+            padding: 5px;
+            font-size: 15px;
+            outline: none;
+            text-shadow: 0px 1px 0px #fff;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            -webkit-transition: .3s ease-in-out;
+            -moz-transition: .3s ease-in-out;
+            -o-transition: .3s ease-in-out;
+        }
+
+        input:focus,textarea:focus {
+            border: 1px solid #fafafa;
+            -webkit-box-shadow: 0px 0px 6px #007eff;
+            -moz-box-shadow: 0px 0px 5px #007eff;
+            box-shadow: 0px 0px 5px #007eff;
+        }
+        .form-control-input {
+            font-family:Arial,Helvetica,sans-serif;
+            background:none repeat scroll 0 0 #F5F7FD;
+            border:1px solid #B8BFE9;
+            padding:5px 7px;
+            width:400px;
+            vertical-align:middle;
+            height:30px;
+            font-size:12px;
+            margin:0;
+            list-style:none outside none;
+        }
+        .form-control-query {
+            font-family:Arial,Helvetica,sans-serif;
+            background:none repeat scroll 0 0 #F5F7FD;
+            border:1px solid #B8BFE9;
+            padding:5px 7px;
+            width:400px;
+            vertical-align:middle;
+            height:200px;
+            font-size:12px;
+            margin:0;
+            list-style:none outside none;
+        }
+
+        .col {
+            float:left;
+            width:30%;
+        }
+        .output-frame {
+            margin-left:30%;
+            width:70%;
+            /* border:1px dashed; */
+            /* border-radius:20px; */
+        }
+        .output{
+            font-family:Arial,Helvetica,sans-serif;
+            font-size:12px;
+            /* position: relative; */
+            padding-top: 3.0rem; 
         }
     </style>
 </head>
 <body>
 <div class="container">
         <div class="row">
+            <h1>SQL 建表语句生成器</h1>
+            <hr>
             <div class="col">
-                <h1>SQL Query Generator</h1>
-                <hr>
-
                 <div class="mb-3">
                     <p class="form-group">
-                        <label for="has-dynamic-label">Table Name</label>
-                        <input type="text" class="form-control" id="tbl_name" placeholder="Enter Table Name" required>
+                        <label for="has-dynamic-label">表名</label>
+                        <input type="text" size = 50 class="form-control-input" id="tbl_name" placeholder="输入表名" required>
                         <span class="help-text"></span>
                     </p>
                     <p class="form-group">
-                        <label for="has-dynamic-label">Table Comment</label>
-                        <input type="text" class="form-contorl" id="tbl_comment" placeholder="Enter Table Comment" required>
+                        <label for="has-dynamic-label">注释</label>
+                        <input type="text" size = 50 class="form-control-input" id="tbl_comment" placeholder="输入表注释" required>
                         <span class="help-text"></span>
                     </div>
                     <p class="form-group">
-                        <label for="has-dynamic-label">Query</label>
-                        <textarea class="form-contorl" id="sql" cols="30" rows="3" placeholder="Enter you SQL Query"></textarea>
+                        <label for="has-dynamic-label">SQL查询语句</label>
+                        <textarea class="form-control-query" id="sql" cols="50" rows="20" placeholder="输入SQL查询语句"></textarea>
                         <span class="help-text"></span>
                     </p>
 
-                    <button class="btn btn-primary" onclick="submit_entry();">Analysis</button>
+                    <button class="btn btn-primary" onclick="submit_entry();">分析</button>
 
                     <!-- <p id="hive">{{hive}}</p>
                     <p id="mysql">{{mysql}}</p>
@@ -103,6 +158,8 @@
                     <style type="text/css">
                         .output{white-space:pre-wrap;}
                     </style>
+                </div>
+                <div class="output-frame">
                     <p class="output" id='output-result'>{{output}}</p>
                 </div>
             </div>
