@@ -70,8 +70,8 @@ def baidu_translate(query):
 def get_sql_col_info():
     query = request.get_json()
     print('Query post:', query)
-    sql = query['sql']
-    db_name = 'ad_da'
+    sql = query['sql'] 
+    db_name = 'tmp_db'
     tbl_name = query['tbl_name']
     tbl_comment = query['tbl_comment']
     sql = sql.lower()
@@ -157,19 +157,18 @@ def get_sql_col_info():
 
 
 sql_col_dict = {
-    "dayno": {"col": "dayno", "comment": "日期", "dtype": "string"},
-    "fdate": {"col": "dayno", "comment": "日期", "dtype": "string"},
+    "dt": {"col": "dt", "comment": "日期", "dtype": "string"},
     "imei": {"col": "imei", "comment": "imei", "dtype": "string"},
-    "sc_name": {"col": "sc_name", "comment": "业务场景名称", "dtype": "string"},
-    "otype": {"col": "otype", "comment": "词性", "dtype": "string"},
-    "kw": {"col": "kw", "comment": "扣费关键词", "dtype": "string"},
-    "evt_nums": {"col": "evt_nums", "comment": "应扣下载量", "dtype": "bigint"},
-    "evt_cost": {"col": "evt_cost", "comment": "应扣金额", "dtype": "bigint"},
-    "acc_nums": {"col": "acc_nums", "comment": "实扣下载量", "dtype": "bigint"},
-    "acc_cost": {"col": "acc_cost", "comment": "实扣金额", "dtype": "bigint"},
+    "app_id": {"col": "app_id", "comment": "应用ID", "dtype": "string"},
+    "app_name": {"col": "app_name", "comment": "应用名称", "dtype": "string"},
+    "busi_type": {"col": "busi_type", "comment": "业务类型", "dtype": "string"},
+    "prod_id": {"col": "prod_id", "comment": "商品ID", "dtype": "string"},
+    "click_nums": {"col": "down_nums", "comment": "点击量", "dtype": "bigint"},
+    "pay_nums": {"col": "pay_nums", "comment": "购买量", "dtype": "bigint"},
+    "amount": {"col": "amount", "comment": "金额", "dtype": "bigint"},
     "expose_nums":{"col": "expose_nums", "comment": "曝光量", "dtype": "bigint"},
     "cvr":{"col": "cvr", "comment": "转化率", "dtype": "double"},
-
+    "ctr":{"col": "ctr", "comment": "点击率", "dtype": "double"}
 }
 
 if __name__ == "__main__":
