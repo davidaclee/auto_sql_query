@@ -13,7 +13,7 @@
 
         body {
         padding: 2rem 1rem;
-        /* background-color: #2eec96; */
+        background: #f5f5f5;
         }
 
         form {
@@ -26,20 +26,25 @@
         }
 
         h1 {
-            font-family:Arial,Helvetica,sans-serif;
+            font-family:Microsoft YaHei,Arial,Helvetica,sans-serif;
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--gray-lighter);
             font-size: 20px;
-            text-align: center;
+            text-align: left;
+        }
+
+        h5 {
+            font-family:Microsoft YaHei;
         }
 
         .mb-3 {
             position: relative; 
-            padding-top: 1.5rem; 
+            padding-top: 0.5rem; 
         } 
 
         label {
+            font-family:Microsoft YaHei,Arial,Helvetica,sans-serif;
             position: absolute; 
             top: 0;
             font-size: var(--font-size-small);
@@ -85,7 +90,7 @@
             box-shadow: 0px 0px 5px #007eff;
         }
         .form-control-input {
-            font-family:Arial,Helvetica,sans-serif;
+            font-family:Microsoft YaHei,Arial,Helvetica,sans-serif;
             background:none repeat scroll 0 0 #F5F7FD;
             border:1px solid #B8BFE9;
             padding:5px 7px;
@@ -97,7 +102,7 @@
             list-style:none outside none;
         }
         .form-control-query {
-            font-family:Arial,Helvetica,sans-serif;
+            font-family:Microsoft YaHei,Arial,Helvetica,sans-serif;
             background:none repeat scroll 0 0 #F5F7FD;
             border:1px solid #B8BFE9;
             padding:5px 7px;
@@ -111,7 +116,7 @@
 
         .col {
             float:left;
-            width:30%;
+            width:29%;
         }
         .output-frame {
             margin-left:30%;
@@ -120,10 +125,32 @@
             /* border-radius:20px; */
         }
         .output{
-            font-family:Arial,Helvetica,sans-serif;
+            font-family:Microsoft YaHei,Arial,Helvetica,sans-serif;
             font-size:12px;
             /* position: relative; */
             padding-top: 3.0rem; 
+        }
+
+        .btn-primary {
+            width: 420px;
+            height: 40px;
+            border-width: 0px;
+            border-radius: 3px;
+            background: #53ddcb;
+            cursor: pointer;
+            outline: none;
+            font-family: Microsoft YaHei;
+            color: white;
+            font-size: 14px;
+        }
+        .btn-primary:hover { /* 鼠标移入按钮范围时改变颜色 */
+            background: #44bbb9;
+            font-size: 13px;
+        }
+        
+        .step {
+            font-family:Microsoft YaHei
+
         }
     </style>
 </head>
@@ -131,22 +158,24 @@
 <div class="container">
         <div class="row">
             <h1>SQL 建表语句生成器</h1>
+            <h5>CREATED BY AC</h5>
             <hr>
             <div class="col">
+                <p class="step">一、输入建表信息</p>
                 <div class="mb-3">
                     <p class="form-group">
-                        <label for="has-dynamic-label">表名</label>
-                        <input type="text" size = 50 class="form-control-input" id="tbl_name" placeholder="输入表名" required>
+                        <label for="has-dynamic-label">① 输入表名</label>
+                        <input type="text" size = 50 class="form-control-input" id="tbl_name" placeholder="请输入表名，默认为 ad_da 库" required>
                         <span class="help-text"></span>
                     </p>
                     <p class="form-group">
-                        <label for="has-dynamic-label">注释</label>
-                        <input type="text" size = 50 class="form-control-input" id="tbl_comment" placeholder="输入表注释" required>
+                        <label for="has-dynamic-label">② 输入注释</label>
+                        <input type="text" size = 50 class="form-control-input" id="tbl_comment" placeholder="请输入表注释" required>
                         <span class="help-text"></span>
                     </div>
                     <p class="form-group">
-                        <label for="has-dynamic-label">SQL查询语句</label>
-                        <textarea class="form-control-query" id="sql" cols="50" rows="20" placeholder="输入SQL查询语句"></textarea>
+                        <label for="has-dynamic-label">③ SQL查询语句</label>
+                        <textarea class="form-control-query" id="sql" cols="50" rows="20" placeholder="请输入你已经写好的 SQL 查询语句"></textarea>
                         <span class="help-text"></span>
                     </p>
 
@@ -159,7 +188,9 @@
                         .output{white-space:pre-wrap;}
                     </style>
                 </div>
+                <!-- <div id="Layer1" class = 'straight' style="position: relative; width:1px; height:200px; z-index:1; background-color: #000000;layer-background-color: #000000; border: 1px none #000000; left: 143px; top: 263px"></div> -->
                 <div class="output-frame">
+                    <p class="step">二、输出结果</p>
                     <p class="output" id='output-result'>{{output}}</p>
                 </div>
             </div>
