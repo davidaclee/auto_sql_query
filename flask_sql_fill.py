@@ -71,7 +71,7 @@ def get_sql_col_info():
     query = request.get_json()
     print('Query post:', query)
     sql = query['sql'] 
-    db_name = 'tmp_db'
+    db_name = 'ad_db'
     tbl_name = query['tbl_name']
     tbl_comment = query['tbl_comment']
     sql = sql.lower()
