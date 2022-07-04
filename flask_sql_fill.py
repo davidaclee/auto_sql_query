@@ -33,8 +33,8 @@ class OutputSqlForm(Form):
     comment = StringField('comment')
 
 def baidu_translate(query):
-    appid = '20210127000682390'  # 填写你的appid
-    secretKey = '2YbgLabhKzeJ40aKO4Ws'  # 填写你的密钥
+    appid = '12345'  # 填写你的appid
+    secretKey = 'xxx'  # 填写你的密钥
 
     httpClient = None
     myurl = '/api/trans/vip/translate'
